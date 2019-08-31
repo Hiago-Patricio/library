@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Livros</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <script
+        src="https://code.jquery.com/jquery-3.4.1.js"
+        integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+        crossorigin="anonymous">        
+        </script>                
+    </head>
+    <body>
+       <div>
+            <h1>Inserir Livro</h1>
+            <form name="insereLivro" method="get">
+                Id do autor:<br> 
+                <input id="insereId_autor" type="text" name="insereId_autor" onclick="this.value=''"><br>
+                Id da categoria:<br> 
+                <input id="insereId_categoria" type="text" name="insereId_categoria" onclick="this.value=''"><br>
+                Id do volume:<br> 
+                <input id="insereId_volume" type="text" name="insereId_volume" onclick="this.value=''"><br>
+                Nome:<br> 
+                <input id="insereNome" type="text" name="insereNome" onclick="this.value=''"><br>
+                Descrição:<br> 
+                <input id="insereDescricao" type="text" name="insereDescricao" onclick="this.value=''"><br>
+                Nacionalidade:<br> 
+                <input id="insereNacionalidade" type="text" name="insereNacionalidade" onclick="this.value=''"><br>
+                Numero da edição:<br> 
+                <input id="insereNumero_edicao" type="text" name="insereNumero_edicao" onclick="this.value=''"><br>
+                Estante:<br> 
+                <input id="insereEstante" type="text" name="insereEstante" onclick="this.value=''"><br>
+                
+                <button onclick="f_insere();">Inserir</button>
+                <script>
+                    function f_insere(){
+                        var id_autor = document.getElementById('insereId_autor').value;
+                        var id_categoria = document.getElementById('insereId_categoria').value;
+                        var id_volume = document.getElementById('insereId_volume').value;
+                        var nome = document.getElementById('insereNome').value;
+                        var descricao = document.getElementById('insereDescricao').value;
+                        var nacionalidade = document.getElementById('insereNacionalidade').value;
+                        var numero_edicao = document.getElementById('insereNumero_edicao').value;
+                        var estante = document.getElementById('insereEstante').value;
+                        
+                        $.get("http://localhost:8080/library-webapi/api/livro/insere/"+id_autor+"&"+id_categoria+"&"+id_volume+"&"+nome+"&"+descricao+"&"+nacionalidade+"&"+numero_edicao+"&"+estante);
+                    }
+    
+                </script>
+            </form>
+        </div>
+        
+       <div>
+            <h1>Atualizar Livro</h1>
+            <form name="atualizaLivro" method="get">
+                Id:<br> 
+                <input id="atualizaId" type="text" name="atualizaId" onclick="this.value=''"><br>
+                Id do autor:<br> 
+                <input id="atualizaId_autor" type="text" name="atualizaId_autor" onclick="this.value=''"><br>
+                Id da categoria:<br> 
+                <input id="atualizaId_categoria" type="text" name="atualizaId_categoria" onclick="this.value=''"><br>
+                Id do volume:<br> 
+                <input id="atualizaId_volume" type="text" name="atualizaId_volume" onclick="this.value=''"><br>
+                Nome:<br> 
+                <input id="atualizaNome" type="text" name="atualizaNome" onclick="this.value=''"><br>
+                Descrição:<br> 
+                <input id="atualizaDescricao" type="text" name="atualizaDescricao" onclick="this.value=''"><br>
+                Nacionalidade:<br> 
+                <input id="atualizaNacionalidade" type="text" name="atualizaNacionalidade" onclick="this.value=''"><br>
+                Numero da edição:<br> 
+                <input id="atualizaNumero_edicao" type="text" name="atualizaNumero_edicao" onclick="this.value=''"><br>
+                Estante:<br> 
+                <input id="atualizaEstante" type="text" name="atualizaEstante" onclick="this.value=''"><br>
+                
+                <button onclick="f_atualiza();">Inserir</button>
+                <script>
+                    function f_atualiza(){
+                        var id = document.getElementById('atualizaId').value;
+                        var id_autor = document.getElementById('atualizaId_autor').value;
+                        var id_categoria = document.getElementById('atualizaId_categoria').value;
+                        var id_volume = document.getElementById('atualizaId_volume').value;
+                        var nome = document.getElementById('atualizaNome').value;
+                        var descricao = document.getElementById('atualizaDescricao').value;
+                        var nacionalidade = document.getElementById('atualizaNacionalidade').value;
+                        var numero_edicao = document.getElementById('atualizaNumero_edicao').value;
+                        var estante = document.getElementById('atualizaEstante').value;
+                        
+                        $.get("http://localhost:8080/library-webapi/api/livro/atualiza/"+id+"&"+id_autor+"&"+id_categoria+"&"+id_volume+"&"+nome+"&"+descricao+"&"+nacionalidade+"&"+numero_edicao+"&"+estante);
+                    }
+    
+                </script>
+            </form>
+        </div>
+        
+        
+        <div>
+            <h1>Remove Livro</h1>
+            <form name="removeLivro" method="get">
+                Id:<br> 
+                <input id="removeId" type="text" name="removeId" onclick="this.value=''"><br>
+                
+                <button onclick="f_remove();">Remover</button>
+                
+                <script>
+                    function f_remove(){
+                        var id = document.getElementById('removeId').value;
+                            
+                        $.get("http://localhost:8080/library-webapi/api/livro/remove/"+id);
+                    }
+    
+                </script>
+            </form>
+        </div>
+        
+        <div>
+            <h1>Buscar dados de Livro</h1>
+            <form name="buscaLivro" method="get">
+                Digite o Id:<br>
+                <input id="buscaId" type="text" name="buscaId" onclick="this.value= '' "><br>
+                
+                <button onclick="busca();">Buscar</button>
+            
+                <script>
+                    function busca(){
+                        var id = document.getElementById('buscaId').value;
+                        $.get("http://localhost:8080/library-webapi/api/livro/busca/"+id, 
+                            function(data){
+                                alert(
+                                    "\nId do autor: " + data.id_autor
+                                    + "\nId da categoria: " + data.id_categoria
+                                    + "\nId do estudante: " + data.id_estudante
+                                    + "\nNome: " + data.nome
+                                    + "\nDescrição: " + data.descricao
+                                    + "\nNacionalidade: " + data.nacionalidade
+                                    + "\nNúmero da Edição: " + data.numero_edicao
+                                    + "\nEstante: " + data.estante
+                                );
+                            }
+                        );
+                    }
+                </script>
+            </form>
+        </div>
+    
+        <div>
+            <h1>Emprestar livro</h1>
+            <form name="emprestaLivro" method="get">
+                Id do livro:<br>
+                <input id="emprestaId_livro" type="text" name="emprestaId_livro" onclick="this.value= '' "><br>
+                Id do estudante:<br>
+                <input id="emprestaId_estudante" type="text" name="emprestaId_estudante" onclick="this.value= '' "><br>
+                
+                <button onclick="empresta();">Emprestar</button>
+            
+                <script>
+                    function empresta(){
+                        var id_livro = document.getElementById('emprestaId_livro').value;
+                        var id_estudante = document.getElementById('emprestaId_estudante').value;
+                        $.get("http://localhost:8080/library-webapi/api/livro/empresta/"+id_livro+"&"+id_estudante);
+                    }
+                </script>
+            </form>
+        </div>
+    
+        <div>
+            <h1>Devolver livro</h1>
+            <form name="emprestaLivro" method="get">
+                Id do livro:<br>
+                <input id="devolveId_livro" type="text" name="devolveId_livro" onclick="this.value= '' "><br>
+                
+                <button onclick="devolve();">Devolver</button>
+            
+                <script>
+                    function devolve(){
+                        var id_livro = document.getElementById('devolveId_livro').value;
+                        $.get("http://localhost:8080/library-webapi/api/livro/devolve/"+id_livro);
+                    }
+                </script>
+            </form>
+        </div>
+        
+        <div>
+            <h1>Lista de Livros</h1>
+            <table border = 1>
+                <thead>
+                    <th>Id</th>
+                    <th>Id do Autor</th>
+                    <th>Id da Categoria</th>
+                    <th>Situação</th>
+                    <th>Id do Volume</th>
+                    <th>Nome</th>
+                    <th>Descrição</th>
+                    <th>Nacionalidade</th>
+                    <th>Número da edição</th>
+                    <th>Estante</th>
+                </thead>
+                <tbody id="dados">
+
+                </tbody>
+            </table>
+        </div>
+    </body>
+
+    <script>
+        $(document).ready(function(){
+            $.get("http://localhost:8080/library-webapi/api/livro/consulta", 
+            function(data){
+                for(var i=0;i<data.length;i++){
+                    var c = data[i];
+                    var dados = $("#dados");
+                    var disp;
+                    if(c.id_estudante === 0){
+                        disp = "Disponível";
+                    }else{
+                        disp = "Emprestado ao estudante " + c.id_estudante;
+                    }
+                    
+                    dados.append("<tr>"
+                        +"<td>"+c.id+"</td>"
+                        +"<td>"+c.id_autor+"</td>"
+                        +"<td>"+c.id_categoria+"</td>"
+                        +"<td>"+disp+"</td>"
+                        +"<td>"+c.id_volume+"</td>"
+                        +"<td>"+c.nome+"</td>"
+                        +"<td>"+c.descricao+"</td>"
+                        +"<td>"+c.nacionalidade+"</td>"
+                        +"<td>"+c.numero_edicao+"</td>"
+                        +"<td>"+c.estante+"</td>"
+                        +"</tr>")
+                }    
+            });
+        });
+    </script>
+</html>

@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Categorias</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <script
+        src="https://code.jquery.com/jquery-3.4.1.js"
+        integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+        crossorigin="anonymous">        
+        </script>                
+    </head>
+    <body>
+        <div>
+            <h1>Inserir Categoria</h1>
+            <form name="insereCategoria" method="get">
+                Nome:<br> 
+                <input id="insereNome" type="text" name="insereNome" onclick="this.value=''"><br>
+                
+                Descrição:<br> 
+                <input id="insereDescricao" type="text" name="insereDescricao" onclick="this.value=''"><br>
+                
+                Localização:<br> 
+                <input id="insereLocalizacao" type="text" name="insereLocalizacao" onclick="this.value=''"><br>
+                
+                <button onclick="f_insere();">Inserir</button>
+                
+                <script>
+                    function f_insere(){
+                        var nome = document.getElementById('insereNome').value;
+                        var descricao = document.getElementById('insereDescricao').value;
+                        var localizacao = document.getElementById('insereLocalizacao').value;
+                            
+                        $.get("http://localhost:8080/library-webapi/api/categoria/insere/"+nome+"&"+descricao+"&"+localizacao);
+                    }
+    
+                </script>
+            </form>
+        </div>
+        
+        <div>
+            <h1>Atualizar Categoria</h1>
+            <form name="atualizaCategoria" method="get">
+                Id:<br> 
+                <input id="atualizaId" type="text" name="atualizaId" onclick="this.value=''"><br>
+                
+                Nome:<br> 
+                <input id="atualizaNome" type="text" name="atualizaNome" onclick="this.value=''"><br>
+                
+                Descrição:<br> 
+                <input id="atualizaDescricao" type="text" name="atualizaDescricao" onclick="this.value=''"><br>
+
+                Localização:<br> 
+                <input id="atualizaLocalizacao" type="text" name="atualizaLocalizacao" onclick="this.value=''"><br>
+                
+                <button onclick="f_atualiza();">Atualizar</button>
+                
+                <script>
+                    function f_atualiza(){
+                        var id = document.getElementById('atualizaId').value;
+                        var nome = document.getElementById('atualizaNome').value;
+                        var descricao = document.getElementById('atualizaDescricao').value;
+                        var localizacao = document.getElementById('atualizaLocalizacao').value;
+                            
+                        $.get("http://localhost:8080/library-webapi/api/categoria/atualiza/"+id+"&"+nome+"&"+descricao+"&"+localizacao);
+                    }
+    
+                </script>
+            </form>
+        </div>
+        
+        <div>
+            <h1>Remove Categoria</h1>
+            <form name="removeCategoria" method="get">
+                Id:<br> 
+                <input id="removeId" type="text" name="removeId" onclick="this.value=''"><br>
+                
+                <button onclick="f_remove();">Remover</button>
+                
+                <script>
+                    function f_remove(){
+                        var id = document.getElementById('removeId').value;
+                            
+                        $.get("http://localhost:8080/library-webapi/api/categoria/remove/"+id);
+                    }
+    
+                </script>
+            </form>
+        </div>
+        
+        <div>
+            <h1>Buscar dados da Categoria</h1>
+            <form name="buscaCategoria" method="get">
+                Digite o Id:<br>
+                <input id="buscaId" type="text" name="buscaId" onclick="this.value= '' "><br>
+                
+                <button onclick="busca();">Buscar</button>
+            
+                <script>
+                    function busca(){
+                        var id = document.getElementById('buscaId').value;
+                        $.get("http://localhost:8080/library-webapi/api/categoria/busca/"+id, 
+                            function(data){
+                                alert(
+                                    "Nome: "+ data.nome
+                                    + "\nDescrição: " + data.descricao
+                                    + "\nLocalização: " + data.localizacao
+                                );
+                            }
+                        );
+                    }
+                </script>
+            </form>
+        </div>
+        
+        <div>
+            <h1>Lista de Categorias</h1>
+            <table border = 1>
+                <thead>
+                    <th>Id</th>
+                    <th>Nome</th>
+                    <th>Descrição</th>
+                    <th>Localização</th>
+                </thead>
+                <tbody id="dados">
+
+                </tbody>
+            </table>
+        </div>
+
+    </body>
+    
+    <script>
+        $(document).ready(function(){
+            $.get("http://localhost:8080/library-webapi/api/categoria/consulta", 
+            function(data){
+                for(var i=0;i<data.length;i++){
+                    var c = data[i];
+                    var dados = $("#dados");
+                    dados.append("<tr>"
+                        +"<td>"+c.id+"</td>"
+                        +"<td>"+c.nome+"</td>"
+                        +"<td>"+c.descricao+"</td>"
+                        +"<td>"+c.localizacao+"</td>"
+                        +"</tr>")
+                }    
+            });
+        });
+    </script>
+</html>

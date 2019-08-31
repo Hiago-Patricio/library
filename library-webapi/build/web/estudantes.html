@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Estudantes</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <script
+        src="https://code.jquery.com/jquery-3.4.1.js"
+        integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+        crossorigin="anonymous">        
+        </script>                
+    </head>
+    <body>
+
+        <div>
+            <h1>Inserir Estudante</h1>
+            <form name="insereEstudante" method="get">
+                Nome:<br> 
+                <input id="insereNome" type="text" name="insereNome" onclick="this.value=''"><br>
+                
+                Telefone:<br> 
+                <input id="insereTelefone" type="text" name="insereTelefone" onclick="this.value=''"><br>
+                
+                Cpf:<br> 
+                <input id="insereCpf" type="text" name="insereCpf" onclick="this.value=''"><br>
+                
+                Rg:<br> 
+                <input id="insereRg" type="text" name="insereRg" onclick="this.value=''"><br>
+                
+                Endereco:<br> 
+                <input id="insereEndereco" type="text" name="insereEndereco" onclick="this.value=''"><br>
+                
+                <button onclick="f_insere();">Inserir</button>
+                
+                <script>
+                    function f_insere(){
+                        var nome = document.getElementById('insereNome').value;
+                        var telefone = document.getElementById('insereTelefone').value;
+                        var cpf = document.getElementById('insereCpf').value;
+                        var rg = document.getElementById('insereRg').value;
+                        var endereco = document.getElementById('insereEndereco').value;
+                            
+                        $.get("http://localhost:8080/library-webapi/api/estudante/insere/"+nome+"&"+telefone+"&"+cpf+"&"+rg+"&"+endereco);
+                    }
+    
+                </script>
+            </form>
+        </div>
+ 
+        <div>
+            <h1>Atualizar Estudante</h1>
+            <form name="atualizaEstudante" method="get">
+                Id:<br> 
+                <input id="atualizaId" type="text" name="atualizaId" onclick="this.value=''"><br>
+                
+                Nome:<br> 
+                <input id="atualizaNome" type="text" name="atualizaNome" onclick="this.value=''"><br>
+                
+                Telefone:<br> 
+                <input id="atualizaTelefone" type="text" name="atualizaTelefone" onclick="this.value=''"><br>
+
+                Cpf:<br> 
+                <input id="atualizaCpf" type="text" name="atualizaCpf" onclick="this.value=''"><br>
+                
+                Rg:<br> 
+                <input id="atualizaRg" type="text" name="atualizaRg" onclick="this.value=''"><br>
+                
+                Endereco:<br> 
+                <input id="atualizaEndereco" type="text" name="atualizaEndereco" onclick="this.value=''"><br>
+                
+                <button onclick="f_atualiza();">Atualizar</button>
+             
+                <script>
+                    function f_atualiza(){
+                        var id = document.getElementById('atualizaId').value;
+                        var nome = document.getElementById('atualizaNome').value;
+                        var telefone = document.getElementById('atualizaTelefone').value;
+                        var cpf = document.getElementById('atualizaCpf').value;
+                        var rg = document.getElementById('atualizaRg').value;
+                        var endereco = document.getElementById('atualizaEndereco').value;
+                            
+                        $.get("http://localhost:8080/library-webapi/api/estudante/atualiza/"+id+"&"+nome+"&"+telefone+"&"+cpf+"&"+rg+"&"+endereco);
+                    }
+    
+                </script>
+            </form>
+        </div>
+        
+        <div>
+            <h1>Remove Estudante</h1>
+            <form name="removeEstudante" method="get">
+                Id:<br> 
+                <input id="removeId" type="text" name="removeId" onclick="this.value=''"><br>
+                
+                <button onclick="f_remove();">Remover</button>
+                
+                <script>
+                    function f_remove(){
+                        var id = document.getElementById('removeId').value;
+                            
+                        $.get("http://localhost:8080/library-webapi/api/estudante/remove/"+id);
+                    }
+    
+                </script>
+            </form>
+        </div>
+ 
+        <div>
+            <h1>Buscar dados da Estudante</h1>
+            <form name="buscaEstudante" method="get">
+                Digite o Id:<br>
+                <input id="buscaId" type="text" name="buscaId" onclick="this.value= '' "><br>
+                
+                <button onclick="busca();">Buscar</button>
+            
+                <script>
+                    function busca(){
+                        var id = document.getElementById('buscaId').value;
+                        $.get("http://localhost:8080/library-webapi/api/estudante/busca/"+id, 
+                            function(data){
+                                alert(
+                                    "Nome: "+ data.nome
+                                    + "\nTelefone: " + data.telefone
+                                    + "\nCpf: " + data.cpf
+                                    + "\nRg: " + data.rg
+                                    + "\nEndereco: " + data.endereco
+                                );
+                            }
+                        );
+                    }
+                </script>
+            </form>
+        </div>
+       
+        <div>
+            <h1>Lista de Estudantes</h1>
+            <table border = 1>
+                <thead>
+                    <th>Id</th>
+                    <th>Nome</th>
+                    <th>Telefone</th>
+                    <th>Cpf</th>
+                    <th>Rg</th>
+                    <th>Endereço</th>
+                </thead>
+                <tbody id="dados">
+
+                </tbody>
+            </table>
+        </div>
+
+    </body>
+    
+    <script>
+        $(document).ready(function(){
+            $.get("http://localhost:8080/library-webapi/api/estudante/consulta", 
+            function(data){
+                for(var i=0;i<data.length;i++){
+                    var c = data[i];
+                    var dados = $("#dados");
+                    dados.append("<tr>"
+                        +"<td>"+c.id+"</td>"
+                        +"<td>"+c.nome+"</td>"
+                        +"<td>"+c.telefone+"</td>"
+                        +"<td>"+c.cpf+"</td>"
+                        +"<td>"+c.rg+"</td>"
+                        +"<td>"+c.endereco+"</td>"
+                        +"</tr>")
+                }    
+            });
+        });
+    </script>
+</html>

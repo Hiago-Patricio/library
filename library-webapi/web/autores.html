@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Autores</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <script
+        src="https://code.jquery.com/jquery-3.4.1.js"
+        integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+        crossorigin="anonymous">        
+        </script>                
+    </head>
+    <body>
+        <h1>Inserir Autor</h1>
+        <form name="insereAutor" method="get">
+            Nome:<br> 
+            <input id="insereNome" type="text" name="insereNome" onclick="this.value=''"><br>
+
+            Nacionalidade:<br> 
+            <input id="insereNacionalidade" type="text" name="insereNacionalidade" onclick="this.value=''"><br>
+
+            <button onclick="f_insere();">Inserir</button>
+
+            <script>
+                function f_insere(){
+                    var nome = document.getElementById('insereNome').value;
+                    var nacionalidade = document.getElementById('insereNacionalidade').value;
+
+                    $.get("http://localhost:8080/library-webapi/api/autor/insere/"+nome+"&"+nacionalidade);
+                }
+
+            </script>
+        </form>
+        
+        <h1>Atualizar Autor</h1>
+        <form name="atualizaAutor" method="get">
+            Id:<br> 
+            <input id="atualizaId" type="text" name="atualizaId" onclick="this.value=''"><br>
+
+            Nome:<br> 
+            <input id="atualizaNome" type="text" name="atualizaNome" onclick="this.value=''"><br>
+
+            Nacionalidade:<br> 
+            <input id="atualizaNacionalidade" type="text" name="atualizaNacionalidade" onclick="this.value=''"><br>
+
+            <button onclick="f_atualiza();">Atualizar</button>
+
+            <script>
+                function f_atualiza(){
+                    var id = document.getElementById('atualizaId').value;
+                    var nome = document.getElementById('atualizaNome').value;
+                    var nacionalidade = document.getElementById('atualizaNacionalidade').value;
+
+                    $.get("http://localhost:8080/library-webapi/api/autor/atualiza/"+id+"&"+nome+"&"+nacionalidade);
+                }
+
+            </script>
+        </form>
+
+        <h1>Remove Autor</h1>
+        <form name="removeAutor" method="get">
+            Id:<br> 
+            <input id="removeId" type="text" name="removeId" onclick="this.value=''"><br>
+
+            <button onclick="f_remove();">Remover</button>
+
+            <script>
+                function f_remove(){
+                    var id = document.getElementById('removeId').value;
+
+                    $.get("http://localhost:8080/library-webapi/api/autor/remove/"+id);
+                }
+
+            </script>
+        </form>
+
+        <h1>Buscar dados do Autor</h1>
+        <form name="buscaAutor" method="get">
+            Digite o Id:<br>
+            <input id="buscaId" type="text" name="buscaId" onclick="this.value= '' "><br>
+
+            <button onclick="busca();">Buscar</button>
+
+            <script>
+                function busca(){
+                    var id = document.getElementById('buscaId').value;
+                    $.get("http://localhost:8080/library-webapi/api/autor/busca/"+id, 
+                        function(data){
+                            alert(
+                                "Nome: "+ data.nome
+                                + "\nNacionalidade: " + data.nacionalidade
+                            );
+                        }
+                    );
+                }
+            </script>
+        </form>
+        
+        <h1>Lista de Autores</h1>
+        <table border = 1>
+            <thead>
+                <th>Id</th>
+                <th>Nome</th>
+                <th>Nacionalidade</th>
+            </thead>
+            <tbody id="dados">
+
+            </tbody>
+        </table>
+
+    </body>
+    
+    <script>
+        $(document).ready(function(){
+            $.get("http://localhost:8080/library-webapi/api/autor/consulta", 
+            function(data){
+                for(var i=0;i<data.length;i++){
+                    var c = data[i];
+                    var dados = $("#dados");
+                    dados.append("<tr>"
+                        +"<td>"+c.id+"</td>"
+                        +"<td>"+c.nome+"</td>"
+                        +"<td>"+c.nacionalidade+"</td>"
+                        +"</tr>")
+                }    
+            });
+        });
+    </script>
+</html>

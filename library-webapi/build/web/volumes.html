@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Volumes</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <script
+        src="https://code.jquery.com/jquery-3.4.1.js"
+        integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+        crossorigin="anonymous">        
+        </script>                
+    </head>
+    <body>
+      
+        <div>
+            <h1>Inserir Volume</h1>
+            <form name="insereVolume" method="get">
+                Editora:<br> 
+                <input id="insereEditora" type="text" name="insereEditora" onclick="this.value=''"><br>
+                
+                Ano de Publicação:<br> 
+                <input id="insereAno_publicacao" type="text" name="insereAno_publicacao" onclick="this.value=''"><br>
+                
+                Descrição:<br> 
+                <input id="insereDescricao" type="text" name="insereDescricao" onclick="this.value=''"><br>
+                
+                <button onclick="f_insere();">Inserir</button>
+                
+                <script>
+                    function f_insere(){
+                        var editora = document.getElementById('insereEditora').value;
+                        var ano_publicacao = document.getElementById('insereAno_publicacao').value;
+                        var descricao = document.getElementById('insereDescricao').value;
+                            
+                        $.get("http://localhost:8080/library-webapi/api/volume/insere/"+editora+"&"+ano_publicacao+"&"+descricao);
+                    }
+    
+                </script>
+            </form>
+        </div>
+        
+        <div>
+            <h1>Atualizar Volume</h1>
+            <form name="atualizaVolume" method="get">
+                Id:<br> 
+                <input id="atualizaId" type="text" name="atualizaId" onclick="this.value=''"><br>
+                
+                Editora:<br> 
+                <input id="atualizaEditora" type="text" name="atualizaEditora" onclick="this.value=''"><br>
+                
+                Ano de Publicação:<br> 
+                <input id="atualizaAno_publicacao" type="text" name="atualizaAno_publicacao" onclick="this.value=''"><br>
+                
+                Descrição:<br> 
+                <input id="atualizaDescricao" type="text" name="atualizaDescricao" onclick="this.value=''"><br>
+                
+                <button onclick="f_atualiza();">Atualizar</button>
+                
+                <script>
+                    function f_atualiza(){
+                        var id = document.getElementById('atualizaId').value;
+                        var editora = document.getElementById('atualizaEditora').value;
+                        var ano_publicacao = document.getElementById('atualizaAno_publicacao').value;
+                        var descricao = document.getElementById('atualizaDescricao').value;
+                            
+                        $.get("http://localhost:8080/library-webapi/api/volume/atualiza/"+id+"&"+editora+"&"+ano_publicacao+"&"+descricao);
+                    }
+    
+                </script>
+            </form>
+        </div>
+        
+        <div>
+            <h1>Remove Volume</h1>
+            <form name="removeVolume" method="get">
+                Id:<br> 
+                <input id="removeId" type="text" name="removeId" onclick="this.value=''"><br>
+                
+                <button onclick="f_remove();">Remover</button>
+                
+                <script>
+                    function f_remove(){
+                        var id = document.getElementById('removeId').value;
+                            
+                        $.get("http://localhost:8080/library-webapi/api/volume/remove/"+id);
+                    }
+    
+                </script>
+            </form>
+        </div>
+        
+        <div>
+            <h1>Buscar dados do Volume</h1>
+            <form name="buscaVolume" method="get">
+                Digite o Id:<br>
+                <input id="buscaId" type="text" name="buscaId" onclick="this.value= '' "><br>
+                
+                <button onclick="busca();">Buscar</button>
+            
+                <script>
+                    function busca(){
+                        var id = document.getElementById('buscaId').value;
+                        $.get("http://localhost:8080/library-webapi/api/volume/busca/"+id, 
+                            function(data){
+                                alert(
+                                    "Nome: "+ data.editora
+                                    + "\nAno de publicação: " + data.ano_publicacao
+                                    + "\nDescrição: " + data.descricao
+                                );
+                            }
+                        );
+                    }
+                </script>
+            </form>
+        </div>
+        
+        <div>
+            <h1>Lista de Volumes</h1>
+            <table border = 1>
+                <thead>
+                    <th>Id</th>
+                    <th>Editora</th>
+                    <th>Ano de Publicação</th>
+                    <th>Descrição</th>
+                </thead>
+                <tbody id="dados">
+
+                </tbody>
+            </table>
+        </div>
+
+    </body>
+    <script>
+        $(document).ready(function(){
+            $.get("http://localhost:8080/library-webapi/api/volume/consulta", 
+            function(data){
+                for(var i=0;i<data.length;i++){
+                    var c = data[i];
+                    var dados = $("#dados");
+                    dados.append("<tr>"
+                        +"<td>"+c.id+"</td>"
+                        +"<td>"+c.editora+"</td>"
+                        +"<td>"+c.ano_publicacao+"</td>"
+                        +"<td>"+c.descricao+"</td>"
+                        +"</tr>")
+                }    
+            });
+        });
+    </script>
+</html>
